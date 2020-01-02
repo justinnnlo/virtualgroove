@@ -11,12 +11,13 @@ class Dashboard extends Component {
 		super();
 		this.state = {
 			currentVideo: '',
-			index: 0,
+			index: '',
 			status: '',
 			queue: [],
 			username: '',
 			email: '',
 			password: '',
+			id: '',
 		}
   };
 
@@ -63,10 +64,27 @@ class Dashboard extends Component {
 		this.setState({ password });
 	};
 
+	//login
+	onChangeId = id => {
+		this.setState({ id: id })
+	}
+	onChangePassword = password => {
+		this.setState({ password: password })
+	}
+	handleLogin = () => {
+		axios.post('/auth/login', {
+			username: this.state.id,
+			password: this.state.password
+		})
+			.then(resposnse => {
+				console.log('response', resposnse)
+			})
+		}
+
   render() {
 	return (
 	  <div id='dashboard'>
-		<Player currentVideo={this.state.currentVideo} setStatus={this.setStatus} setCurrentVideo={this.setCurrentVideo} queue={this.state.queue} index={this.state.index} />
+		<Player setStatus={this.setStatus} setCurrentVideo={this.setCurrentVideo}  />
 		<Register registerName={this.registerName} registerEmail={this.registerName} registerPassword={this.registerPassword}/>
 		<Controls queue={this.state.queue} addTrack={this.addTrack} setCurrentVideo={this.setCurrentVideo} status={this.state.status} removeVideo={this.removeVideo} />
 	  </div>
